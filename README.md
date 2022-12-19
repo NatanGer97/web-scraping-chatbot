@@ -31,7 +31,7 @@ you can check it out here: https://web-scraping-chatbot.natanger97.repl.co/swagg
 
 ###### Note: The scraper works for the following websites:
 - https://www.amazon.com/
-- https://www.ksp.co.il/ (only in local environment, gets blocked in deployment environment)
+- https://www.ksp.co.il/ (only in local environment, sometimes blocked in deployment environment)
   the scrapper not done yet, currently working on the following features:
 - Integration with a dialogflow agent in order to make a ChatBot
 - Deployment to a cloud environment (currently working on it)
