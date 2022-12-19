@@ -26,6 +26,16 @@ you can check it out here: https://web-scraping-chatbot.natanger97.repl.co/swagg
 2. Start the application
 3. Go to http://localhost:8080/swagger-ui.html
 
+# Run with google dialogflow
+**Note: before running the bot, please go to the following link and make sure
+      the server is up and running:** 
+      **https://web-scraping-chatbot.natanger97.repl.co/swagger-ui.html**
+
+1. https://console.dialogflow.com/api-client/demo/embedded/d0e298b8-4dff-48ed-b204-cce1dc93dc7d
+2. Type 'product' or 'item' to start the conversation
+3 Type the product you want to search for
+4. The bot will return the product information
+
 
 
 
