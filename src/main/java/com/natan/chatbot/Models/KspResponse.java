@@ -68,6 +68,18 @@ public class KspResponse {
         public void setBrandName(String brandName) {
             this.brandName = brandName;
         }
+
+        @Override
+        public String toString() {
+            return "KspItem{" +
+                    "name='" + name + '\'' +
+                    ", img='" + img + '\'' +
+                    ", price=" + price +
+                    ", description='" + description + '\'' +
+                    ", brandImg='" + brandImg + '\'' +
+                    ", brandName='" + brandName + '\'' +
+                    '}';
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

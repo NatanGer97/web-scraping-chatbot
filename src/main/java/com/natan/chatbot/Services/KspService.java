@@ -126,5 +126,44 @@ public class KspService {
         }
     }
 
+    /* method for bot - should be refactored - code duplication */
+    public String kspScrapBot(String keyword) throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(String.format("https://ksp.co.il/m_action/api/category/?search=%s", keyword))
+
+                .method("GET", null)
+                .addHeader("authority", "ksp.co.il")
+                .addHeader("accept", "*/*")
+                .addHeader("accept-language", "he,en-US;q=0.9,en;q=0.8,en-IL;q=0.7,he-IL;q=0.6")
+//                .addHeader("cookie", "language=he; ID_computer=1028553633; cfontsize=0; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkxOS3ZQSjhZUmdCWm1cL1FwcXFkM01RPT0iLCJ2YWx1ZSI6IkVpTTA0cDZXd3lKZ3p4WG5CaVdkdVRcL1B4bFFFY1NST0lPUGVubnl0T0lmUmVmMEhIZXpZYnBibkhjQ2hUVTY3Zml4S1luNUpjTXQxTGRtcHgyM2txSXR2Yk9hOUE0T1BGU3h5M1hyQlRmUT0iLCJtYWMiOiJmMzI3NjU4NjA1YTgxOGQ5NjQ3ZjU4ZWYzMTZiNjkwNGMzMzZhODg0MDI0MmI0YWM5MDYyOGIzYTg3YTk1OTYzIn0%3D; AmexDiscount={\"pointsToBurn\":null,\"discountInShekels\":null}; store=shipment; remoteVer=7.01; street_id=522; city_id=6200; cart_form_inputs=[]; _gcl_au=1.1.735034737.1669287323; _gid=GA1.3.1381865304.1669724708; ln=ph; RCR=Build; kspHistory=%5B%22phone%22%2C%22watch%22%2C%22phones%22%5D; PHPSESSID=8bmjjc53bibr8r2hu0vdqj1vb5; _ga_04VL5ZQ1FG=GS1.1.1669724707.27.1.1669727869.59.0.0; _ga=GA1.3.1819008285.1652601910; _gat_gtag_UA_109261_1=1; store=shipment")
+                .addHeader("lang", "en")
+//                .addHeader("referer", "https://ksp.co.il/web/cat/?search=phones")
+                .addHeader("sec-ch-ua", "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"")
+                .addHeader("sec-ch-ua-mobile", "?0")
+                .addHeader("sec-ch-ua-platform", "\"Windows\"")
+                .addHeader("sec-fetch-dest", "empty")
+                .addHeader("sec-fetch-mode", "cors")
+                .addHeader("sec-fetch-site", "same-origin")
+                .addHeader("token", "429321a9754c5232cfceb31f0e960980")
+                .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        String responseAsString;
+        try {
+
+            RestTemplate rs = new RestTemplateBuilder().build();
+
+            responseAsString = Objects.requireNonNull(response.body()).string();
+            com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            KspResponse kspItemsResponse = objectMapper.readValue(responseAsString, KspResponse.class);
+
+            return kspItemsResponse.getResult().getItems().toString();
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
 
 }

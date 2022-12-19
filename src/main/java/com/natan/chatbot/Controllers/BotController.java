@@ -1,5 +1,6 @@
 package com.natan.chatbot.Controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.*;
 import com.natan.chatbot.Models.*;
@@ -7,6 +8,7 @@ import com.natan.chatbot.Models.Bot.*;
 import com.natan.chatbot.Services.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -32,24 +34,48 @@ public class BotController {
     public ResponseEntity<?> getProducts(@RequestParam String keyword) throws IOException {
         return ResponseEntity.ok(amazonService.searchProducts(keyword));
     }
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     /**
      * note: this block when we running in deploy mode
      * @param keyword - the keyword to search for
      * @return - a list of products
      */
+
     @GetMapping("/ksp")
     public ResponseEntity<?> getKspProducts1(@RequestParam String keyword) {
 
         ArrayList<KspResponse.KspItem> kspItems = null;
+
         try {
             kspItems = kspService.kspScrap(keyword);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return ResponseEntity.ok(kspItems);
     }
+
+
+    @GetMapping("/ksp-bot")
+    public ResponseEntity<?> kspBot(@RequestParam String keyword) {
+
+        ArrayList<KspResponse.KspItem> kspItems = null;
+        String response = null;
+        try {
+           response= kspService.kspScrapBot(keyword);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
     /**
      * @param query the query to be sent to the bot
@@ -65,7 +91,10 @@ public class BotController {
             //                amazonItemMap = kspService.searchProductInKSP(params.get("product"));
             try {
 //                amazonItemMap = amazonService.searchProducts(params.get("product"));
-                response = amazonService.searchProducts(params.get("product"));
+//                response = amazonService.searchProducts(params.get("product"));
+                String s = objectMapper.writeValueAsString(kspService.kspScrap(params.get("product")));
+                response = objectMapper.readValue(s, String.class);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

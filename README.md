@@ -13,7 +13,7 @@ Scraping is done using **Jsoup**, and combined with the use of:
 
 # Deployed
 currently, deployed on _repl.it_
-you can check it out here: https://natan-chatbot.natanger97.repl.co/swagger-ui.html
+you can check it out here: https://web-scraping-chatbot.natanger97.repl.co/swagger-ui.html
 
 ------------
 
